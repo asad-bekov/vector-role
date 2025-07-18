@@ -1,14 +1,13 @@
 ---
-- name: Add Vector GPG key
-  ansible.builtin.get_url:
-    url: https://apt.vector.dev/vector.asc
-    dest: /etc/apt/trusted.gpg.d/vector.asc
-    mode: '0644'
+- name: Import Vector GPG key
+  ansible.builtin.apt_key:
+    url: https://packages.timber.io/vector/repo/GPG-KEY-vector
+    state: present
   become: true
 
-- name: Add Vector repository
+- name: Add Vector APT repository
   ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/etc/apt/trusted.gpg.d/vector.asc] https://apt.vector.dev stable main"
+    repo: 'deb https://packages.timber.io/vector/apt/ubuntu focal main'
     state: present
     filename: vector
   become: true
@@ -18,7 +17,7 @@
     update_cache: yes
   become: true
 
-- name: Ensure vector is installed
+- name: Install vector
   ansible.builtin.apt:
     name: vector
     state: present
