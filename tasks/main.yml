@@ -1,7 +1,7 @@
 ---
 - name: Download Vector GPG key (Debian Bookworm)
   ansible.builtin.get_url:
-    url: https://apt.vector.dev/DEB-GPG-KEY-vector
+    url: https://apt.vector.dev/vector.asc
     dest: /usr/share/keyrings/vector-archive-keyring.gpg
     mode: '0644'
   become: true
