@@ -1,0 +1,5 @@
+---
+- name: Restart vector
+  systemd:
+    name: vector
+    state: restarted

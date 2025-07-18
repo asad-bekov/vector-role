@@ -1,0 +1,5 @@
+vector_data_dir: "/var/lib/vector"
+vector_source_type: "stdin"
+vector_transform_type: "json_parser"
+vector_sink_type: "console"
+vector_codec: "json"

@@ -1,0 +1,32 @@
+---
+- name: Ensure vector is installed
+  apt:
+    name: vector
+    state: present
+  become: true
+
+- name: Create data directory
+  file:
+    path: "{{ vector_data_dir }}"
+    state: directory
+    owner: vector
+    group: vector
+    mode: '0755'
+  become: true
+
+- name: Deploy vector config
+  template:
+    src: vector.toml.j2
+    dest: /etc/vector/vector.toml
+    owner: vector
+    group: vector
+    mode: '0644'
+  notify: Restart vector
+  become: true
+
+- name: Ensure vector is running and enabled
+  systemd:
+    name: vector
+    state: started
+    enabled: true
+  become: true

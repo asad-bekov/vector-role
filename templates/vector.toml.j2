@@ -1,0 +1,14 @@
+# Vector config
+data_dir = "{{ vector_data_dir }}"
+
+[sources.stdin]
+type = "{{ vector_source_type }}"
+
+[transforms.json_parser]
+type = "{{ vector_transform_type }}"
+inputs = ["stdin"]
+
+[sinks.console]
+type = "{{ vector_sink_type }}"
+inputs = ["json_parser"]
+encoding.codec = "{{ vector_codec }}"
