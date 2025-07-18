@@ -1,4 +1,28 @@
 ---
+- name: Add Vector APT repository
+  apt_key:
+    url: https://repositories.timber.io/public/vector/gpg.4B154D6C0B1B9B8F.key
+    state: present
+  become: true
+
+- name: Add Vector repo to sources list
+  apt_repository:
+    repo: "deb https://repositories.timber.io/public/vector/deb/debian any-version main"
+    state: present
+    filename: vector
+  become: true
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+  become: true
+
+- name: Ensure vector is installed
+  apt:
+    name: vector
+    state: present
+  become: true
+
 - name: Ensure vector is installed
   apt:
     name: vector
