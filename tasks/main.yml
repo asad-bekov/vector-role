@@ -5,22 +5,19 @@
     dest: "/tmp/vector_0.48.0-1_amd64.deb"
 
 - name: Install Vector from deb
-  apt:
+  ansible.builtin.apt:
     deb: "/tmp/vector_0.48.0-1_amd64.deb"
     state: present
-  become: true
 
 - name: Ensure vector is installed
   apt:
     name: vector
     state: present
-  become: true
 
 - name: Ensure vector is installed
   apt:
     name: vector
     state: present
-  become: true
 
 - name: Create data directory
   file:
@@ -29,8 +26,7 @@
     owner: vector
     group: vector
     mode: '0755'
-  become: true
-
+  
 - name: Deploy vector config
   template:
     src: vector.toml.j2
@@ -39,11 +35,10 @@
     group: vector
     mode: '0644'
   notify: Restart vector
-  become: true
-
+  
 - name: Ensure vector is running and enabled
   systemd:
     name: vector
     state: started
     enabled: true
-  become: true
+  

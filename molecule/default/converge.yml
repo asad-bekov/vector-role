@@ -1,0 +1,12 @@
+- name: Converge
+  hosts: all
+  tasks:
+    - name: Download Vector deb package
+      ansible.builtin.get_url:
+        url: https://packages.timber.io/vector/0.48.0/vector_0.48.0-1_amd64.deb
+        dest: /tmp/vector_0.48.0-1_amd64.deb
+
+    - name: Install Vector from deb
+      ansible.builtin.apt:
+        deb: /tmp/vector_0.48.0-1_amd64.deb
+        state: present

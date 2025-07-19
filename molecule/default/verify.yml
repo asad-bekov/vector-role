@@ -1,0 +1,26 @@
+- name: Verify
+  hosts: all
+  become: false
+  tasks:
+    - name: Check if Vector binary exists
+      ansible.builtin.command: vector --version
+      register: vector_version
+      changed_when: false
+      failed_when: vector_version.rc != 0
+
+    - name: Validate Vector config
+      ansible.builtin.command: vector validate --no-environment
+      changed_when: false
+      # failed_when: result.rc != 0 (по умолчанию)
+
+    # Если хочется — проверяй наличие systemd файла, но не состояние сервиса!
+    - name: Check for vector systemd service file
+      stat:
+        path: /lib/systemd/system/vector.service
+      register: vector_service_file
+
+    - name: Assert Vector systemd service file exists
+      assert:
+        that: vector_service_file.stat.exists
+        fail_msg: "Vector systemd unit file is missing"
+        success_msg: "Vector systemd unit file exists"

@@ -1,0 +1,16 @@
+---
+- name: Prepare
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Update apt cache (Ubuntu)
+      raw: apt-get update
+      when: "'ubuntu' in inventory_hostname"
+
+    - name: Install python3 and ca-certificates (Ubuntu)
+      raw: apt-get install -y python3 ca-certificates
+      when: "'ubuntu' in inventory_hostname"
+
+    - name: Install python3 (OracleLinux)
+      raw: yum install -y python3
+      when: "'oracle' in inventory_hostname"
